@@ -1,4 +1,4 @@
-from .core.keyboard import type, key
+from .core.keyboard import type, key, ime_on, ime_off
 from .core.mouse import move_mouse, hover
 from .capture.screenshot import screenshot
 from .capture.ocr import ocr, initialize_ocr, is_ocr_initialized
@@ -7,10 +7,10 @@ from .vision import initialize_visual, is_visual_initialized
 from .actions.click import click, dbclick, rightclick
 from .actions.wait_presence import wait_presence
 from .actions.scroll import scroll_up, scroll_down
-from .utils import clipboard
+from .utils import clipboard, clipboard_copy
 
 __all__ = [
-    "type", "key",
+    "type", "key", "ime_on", "ime_off",
     "move_mouse", "hover",
     "screenshot", "ocr",
     "wait_for_screen_change",
@@ -19,7 +19,7 @@ __all__ = [
     "get_img_center_coords", "get_text_center_coords",
     "click", "dbclick", "rightclick",
     "scroll_up", "scroll_down",
-    "clipboard",
+    "clipboard", "clipboard_copy",
     "wait_presence"
 ]
 

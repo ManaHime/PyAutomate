@@ -1,4 +1,4 @@
-from pynput.keyboard import Controller, Key
+from pynput.keyboard import Controller, Key, KeyCode
 
 keyboard = Controller()
 
@@ -34,3 +34,11 @@ def key(input_str: str):
     else:
         k = get_key(input_str)
         keyboard.press(k); keyboard.release(k)
+
+def ime_on():
+    keyboard.press(KeyCode.from_vk(243))
+    keyboard.release(KeyCode.from_vk(244))
+
+def ime_off():
+    keyboard.press(KeyCode.from_vk(244))
+    keyboard.release(KeyCode.from_vk(243))

@@ -5,3 +5,6 @@ def clipboard():
 
 def clickboard_clear():
     pyperclip.copy('')
+
+def clipboard_copy(text):
+    pyperclip.copy(text)
