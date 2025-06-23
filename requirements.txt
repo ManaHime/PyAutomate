@@ -1,0 +1,7 @@
+easyocr==1.7.2
+mss==10.0.0
+numpy==2.3.1
+pynput==1.8.1
+pyperclip==1.9.0
+selenium==4.33.0
+torch==2.7.1
