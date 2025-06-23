@@ -1,4 +1,4 @@
-from .core.keyboard import type, key, ime_on, ime_off
+from .core.keyboard import type, key, clear, ime_on, ime_off
 from .core.mouse import move_mouse, hover
 from .capture.screenshot import screenshot
 from .capture.ocr import ocr, initialize_ocr, is_ocr_initialized
@@ -7,11 +7,15 @@ from .vision import initialize_visual, is_visual_initialized
 from .actions.click import click, dbclick, rightclick
 from .actions.wait_presence import wait_presence
 from .actions.scroll import scroll_up, scroll_down
+from .actions.goto import goto
+from .core.browser import init_driver, get_driver, close_driver, close_all_drivers, read, select_by_value
 from .utils import clipboard, clipboard_copy
 
 __all__ = [
-    "type", "key", "ime_on", "ime_off",
+    "type", "key", "clear", "ime_on", "ime_off",
     "move_mouse", "hover",
+    "init_driver", "get_driver", "close_driver", "close_all_drivers", "read", "select_by_value",
+    "goto",
     "screenshot", "ocr",
     "wait_for_screen_change",
     "initialize_ocr", "is_ocr_initialized",
@@ -20,7 +24,7 @@ __all__ = [
     "click", "dbclick", "rightclick",
     "scroll_up", "scroll_down",
     "clipboard", "clipboard_copy",
-    "wait_presence"
+    "wait_presence",
 ]
 
 # Initialize OCR by default for backward compatibility
