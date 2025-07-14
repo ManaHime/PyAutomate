@@ -41,13 +41,14 @@ def click(target, x_offset=0, y_offset=0, timeout=10, driver=None, selector_type
             print(f"❌ Click error: {type(e).__name__}: {str(e)}")
     return False
 
-def dbclick(target, x_offset=0, y_offset=0, timeout=10, driver=None, selector_type=None ):
+def dbclick(target, x_offset=0, y_offset=0, timeout=10, driver=None, selector_type=None, element=None ):
     if selector_type is not None:
         if driver is None:
             driver = get_driver()
         if driver is None:
             raise ValueError("Driver is not initialized")
-        element = wait_for_element(driver, "interactable", selector_type, target, timeout)
+        if element is None:
+            element = wait_for_element(driver, "interactable", selector_type, target, timeout)
         if element:
             ActionChains(driver).double_click(element).perform()
             return True

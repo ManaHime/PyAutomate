@@ -4,6 +4,21 @@ from ..core.browser import get_driver, get_selector_type, wait_for_element
 import time
 keyboard = Controller()
 
+def confirm_input(driver=None, selector=None, selector_type=None, timeout=10):
+    if selector is not None:
+        selector_type = get_selector_type(selector_type)
+        if driver is None:
+            driver = get_driver()
+        if driver is None:
+            raise ValueError("Driver is not initialized")
+        element = wait_for_element(driver, "interactable", selector_type, selector, timeout)
+        if element:
+            element.send_keys(Keys.ENTER)
+            return True
+        else:
+            print(f"No input element found for: {selector}")
+            return False
+
 def type(text: str, driver=None, selector=None, selector_type=None, timeout=10):
         if selector is not None:
             selector_type = get_selector_type(selector_type)

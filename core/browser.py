@@ -166,8 +166,12 @@ def read(driver, selector_type, selector, content_type="text", timeout=20, stabl
     )
 
 
-def select_by_value(driver, selector_type, selector, value, timeout=10):
-    element = wait_for_element(driver, "clickable", selector_type, selector, timeout)
+def select_by_value(selector_type, selector, value, driver=None, timeout=10):
+    if driver is None:
+        driver = get_driver()
+    if driver is None:
+        raise ValueError("Driver is not initialized")
+    element = wait_for_element(driver, "interactable", selector_type, selector, timeout)
     if element:
         select = Select(element)
         select.select_by_value(value)
@@ -175,12 +179,6 @@ def select_by_value(driver, selector_type, selector, value, timeout=10):
     else:
         print(f"No visible select element found for: {selector}")
         return False
-
-
-
-
-
-
 
 
 def wait_for_stable_elements(driver, by, locator, stable_time=2.0, timeout=30):
@@ -250,15 +248,26 @@ def wait_for_element(
         print(f"   {type(e).__name__}: {e}")
         return None
 
+def wait_element_hidden(selector_type, selector, driver=None, timeout=20):
+    if driver is None:
+        driver = get_driver()
+    if driver is None:
+        raise ValueError("Driver is not initialized")
+    wait = WebDriverWait(driver, timeout)
+    return wait.until(EC.invisibility_of_element_located((get_selector_type(selector_type), selector)))
 
 def read(
-    driver,
     selector_type,      # "xpath", "css", "id", "class", etc.
     selector,
     content_type="text",
+    driver=None,
     timeout=20,
     stable_time=1.0     # how long table rows must be stable
 ):
+    if driver is None:
+        driver = get_driver()
+    if driver is None:
+        raise ValueError("Driver is not initialized")
     by = get_selector_type(selector_type)
 
     # —— TABLE HANDLING ——  
@@ -313,7 +322,8 @@ def read(
     if not elements:
         print(f"No elements found for selector: {selector}")
         return []
-
+    if content_type == 'value':
+        return elements[0].get_attribute("value") if len(elements) == 1 else [el.get_attribute("value") for el in elements]
     if content_type == "elements":
         return elements
     if content_type == "text":
@@ -340,6 +350,13 @@ def read(
 
     raise ValueError(
         f"Invalid content_type: {content_type!r}. "
-        "Use 'text', 'html', 'inner_html', 'outer_html', 'attribute', "
+        "Use 'text', 'html', 'inner_html', 'outer_html', 'attribute', 'value', "
         "'table_rows', 'table_data', 'table_dict' or 'elements'."
     )
+
+def get_elements(selector_type, selector, driver=None, timeout=20):
+    if driver is None:
+        driver = get_driver()
+    if driver is None:
+        raise ValueError("Driver is not initialized")
+    return wait_for_element(driver=driver, wait_type="stable_list", by=get_selector_type(selector_type), locator=selector, timeout=timeout)
